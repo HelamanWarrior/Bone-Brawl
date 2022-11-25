@@ -6,7 +6,24 @@
 [node name="PrototypeArea" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 968, 537 )
+position = Vector2( 1797, 803 )
+
+[node name="Player2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 182, 792 )
+controller_num = 1
 
 [node name="Ground" parent="." instance=ExtResource( 2 )]
 position = Vector2( 960, 934 )
+scale = Vector2( 1.25, 1 )
+
+[node name="Ground2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1612, 584 )
+scale = Vector2( 0.3, 1 )
+
+[node name="Ground3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 237, 596 )
+scale = Vector2( 0.3, 1 )
+
+[node name="Ground4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 919, 200 )
+scale = Vector2( 0.6, 1 )

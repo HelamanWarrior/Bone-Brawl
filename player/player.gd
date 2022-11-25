@@ -31,7 +31,7 @@ func _physics_process(_delta: float) -> void:
 	
 	check_for_jump_regen()
 	
-	screen_wrap()
+	#screen_wrap()
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func movement_raw_input() -> Vector2:

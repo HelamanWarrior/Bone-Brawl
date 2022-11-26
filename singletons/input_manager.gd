@@ -11,14 +11,17 @@ func _init() -> void:
 func _ready() -> void:
 	update_keyboard_players()
 
-func _joy_connection_changed(_device: int, _connected: bool, _name: String, _guid: String) -> void:
+func _joy_connection_changed(_device: int, _connected: bool) -> void:
 	connected_gamepads = Input.get_connected_joypads()
+	print(connected_gamepads)
+	print("Gamepad changed")
 	update_keyboard_players()
 
 func update_keyboard_players() -> void:
 	var gamepad_numb := connected_gamepads.size()
 	
 	if gamepad_numb > 1:
+		keyboard_players = []
 		return
 	
 	keyboard_players = [0]

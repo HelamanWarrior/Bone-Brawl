@@ -1,6 +1,6 @@
 extends Camera2D
 
-const PADDING_PERCENT := 25
+const PADDING_PERCENT := 20
 
 onready var screen_size := Vector2(Global.GAME_WIDTH, Global.GAME_HEIGHT)
 onready var players = [get_node("../Player"), get_node("../Player2")]
@@ -8,7 +8,7 @@ onready var players = [get_node("../Player"), get_node("../Player2")]
 func _ready() -> void:
 	offset = screen_size * 0.5
 
-func calculate_box(screen_size) -> Rect2:
+func calculate_box(size) -> Rect2:
 	var min_x := INF
 	var max_x := -INF
 	var min_y := INF
@@ -24,7 +24,7 @@ func calculate_box(screen_size) -> Rect2:
 		min_y = min(min_y, pos.y)
 		max_y = max(max_y, pos.y)
 	
-	var correct_pixel = -(screen_size * 0.01) * -PADDING_PERCENT
+	var correct_pixel = -(size * 0.01) * -PADDING_PERCENT
 	
 	var four_point_list = [
 		min_x - correct_pixel.y,

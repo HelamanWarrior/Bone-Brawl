@@ -3,6 +3,7 @@ extends Node
 signal updated_input
 
 var connected_gamepads := []
+
 var keyboard_players := []
 
 func _init() -> void:

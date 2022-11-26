@@ -13,6 +13,7 @@ var just_pressed_jump := false
 
 const JUMP_SPEED := 1000
 const MAX_JUMPS := 1
+const RAYCAST_LENGTH := 35
 
 onready var sprite := $Sprite
 onready var wall_check_raycast := $WallCheck
@@ -100,25 +101,20 @@ func check_for_wall_jump(input: Vector2) -> void:
 	if sliding_left or sliding_right:
 		current_jumps = MAX_JUMPS
 		
-		if Input.is_joy_button_pressed(controller_num, JOY_BUTTON_0):
+		if !is_on_floor():
 			current_state = states.WALL_SLIDE
-			print("WALL SLIDE")
 	else:
 		current_state = states.DEFAULT
-		print("DEFAULT")
 
 func animation_handling(input: Vector2) -> void:
 	if input.x > 0:
 		sprite.flip_h = true
-		wall_check_raycast.cast_to.x = 35
+		wall_check_raycast.cast_to.x = RAYCAST_LENGTH
 		return
 	
 	if input.x != 0:
 		sprite.flip_h = false
-		wall_check_raycast.cast_to.x = -35
-
-func check_for_wall_slide() -> void:
-	pass
+		wall_check_raycast.cast_to.x = -RAYCAST_LENGTH
 
 func _updated_input() -> void:
 	if !InputManager.keyboard_players.has(controller_num):

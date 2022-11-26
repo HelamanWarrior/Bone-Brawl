@@ -3,7 +3,7 @@ extends Camera2D
 const PADDING_PERCENT := 20
 
 onready var screen_size := Vector2(Global.GAME_WIDTH, Global.GAME_HEIGHT)
-onready var players = [get_node("../Player"), get_node("../Player2")]
+onready var players = []
 
 func _ready() -> void:
 	offset = screen_size * 0.5
@@ -34,9 +34,9 @@ func calculate_box(size) -> Rect2:
 	]
 	return rect2_from_4_point_list(four_point_list)
 
-func rect2_from_4_point_list(list) -> Rect2:
-	var center = Vector2( ((list[0] + list[1]) * 0.5), ((list[3] + list[2]) * 0.5) )
-	var size = Vector2( (list[1] - list[0]), (list[3] - list[2]) )
+func rect2_from_4_point_list(list: Array) -> Rect2:
+	var center := Vector2( ((list[0] + list[1]) * 0.5), ((list[3] + list[2]) * 0.5) )
+	var size := Vector2( (list[1] - list[0]), (list[3] - list[2]) )
 	return Rect2(center, size)
 
 func _physics_process(_delta: float) -> void:

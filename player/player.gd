@@ -14,6 +14,8 @@ var just_pressed_jump := false
 const JUMP_SPEED := 1000
 const MAX_JUMPS := 1
 const RAYCAST_LENGTH := 35
+const SLIDE_ACCELERATION := 50
+const MAX_SLIDE_SPEED := 175
 
 var player_number_textures := [
 	preload("res://ui/player_numbers/p1.png"),
@@ -48,6 +50,7 @@ func _physics_process(_delta: float) -> void:
 		states.WALL_SLIDE:
 			var input := movement_input_handling()
 			
+			# direction opposite of wall
 			if input.x > 0:
 				sprite.flip_h = false
 			else:
@@ -56,7 +59,7 @@ func _physics_process(_delta: float) -> void:
 			jump_handling()
 			
 			velocity.x = input.x * speed
-			velocity.y = min(velocity.y + 50, 175)
+			velocity.y = min(velocity.y + SLIDE_ACCELERATION, MAX_SLIDE_SPEED)
 			
 			velocity = move_and_slide(velocity, Vector2.UP)
 			check_for_wall_jump(input)

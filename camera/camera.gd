@@ -1,14 +1,16 @@
 extends Camera2D
 
 const PADDING_PERCENT := 20
+const MIN_ZOOM := 0.6
+const MAX_ZOOM := 1.75
 
 onready var screen_size := Vector2(Global.GAME_WIDTH, Global.GAME_HEIGHT)
-onready var players = []
+onready var players := []
 
 func _ready() -> void:
 	offset = screen_size * 0.5
 
-func calculate_box(size) -> Rect2:
+func calculate_box(size: Vector2) -> Rect2:
 	var min_x := INF
 	var max_x := -INF
 	var min_y := INF
@@ -44,9 +46,9 @@ func _physics_process(_delta: float) -> void:
 	var zoom_ratio := max(custom_rect2.size.x / screen_size.x, custom_rect2.size.y / screen_size.y)
 	
 	var offset_target := custom_rect2.position
-	offset_target.y = clamp(offset_target.y, 0, 525 / zoom.x)
+	offset_target.y = clamp(offset_target.y, 0, 500 / zoom.x)
 	
-	var zoom_target := Vector2(1, 1) * clamp(zoom_ratio, 0.5, 2.0)
+	var zoom_target := Vector2(1, 1) * clamp(zoom_ratio, MIN_ZOOM, MAX_ZOOM)
 	
 	offset = lerp(offset, offset_target, 0.1)
 	zoom = lerp(zoom, zoom_target, 0.05)

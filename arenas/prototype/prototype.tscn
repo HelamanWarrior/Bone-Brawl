@@ -1,9 +1,27 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://arenas/arena.gd" type="Script" id=1]
-[ext_resource path="res://arenas/environment/ground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://camera/camera.gd" type="Script" id=3]
 [ext_resource path="res://camera/camera.tscn" type="PackedScene" id=4]
+[ext_resource path="res://arenas/prototype/prototype_level.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 53, 542 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 1350.5, 50.5 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 47, 550 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 324, 32 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 327.5, 39.5 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 643.5, 35 )
 
 [node name="PrototypeArena" type="Node2D"]
 script = ExtResource( 1 )
@@ -39,26 +57,34 @@ __meta__ = {
 "_gizmo_extents_": 50.0
 }
 
-[node name="Ground" parent="." instance=ExtResource( 2 )]
-position = Vector2( 960, 934 )
-scale = Vector2( 1.25, 1 )
+[node name="ArenaTexture" type="Sprite" parent="."]
+position = Vector2( 924, 384 )
+texture = ExtResource( 5 )
 
-[node name="Ground2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1612, 584 )
-scale = Vector2( 0.3, 1 )
+[node name="ArenaCollisions" type="StaticBody2D" parent="."]
+collision_layer = 17
+collision_mask = 17
 
-[node name="Ground3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 237, 596 )
-scale = Vector2( 0.3, 1 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArenaCollisions"]
+position = Vector2( -384, 351 )
+shape = SubResource( 1 )
 
-[node name="Ground4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 919, 200 )
-scale = Vector2( 0.6, 1 )
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ArenaCollisions"]
+position = Vector2( 925.5, 931.5 )
+shape = SubResource( 2 )
 
-[node name="Ground5" parent="." instance=ExtResource( 2 )]
-position = Vector2( -397, 420 )
-scale = Vector2( 0.03, 15 )
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ArenaCollisions"]
+position = Vector2( 2230, 335 )
+shape = SubResource( 3 )
 
-[node name="Ground6" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2315, 420 )
-scale = Vector2( 0.03, 15 )
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="ArenaCollisions"]
+position = Vector2( 281, 594 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="ArenaCollisions"]
+position = Vector2( 1565.5, 583.5 )
+shape = SubResource( 5 )
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="ArenaCollisions"]
+position = Vector2( 915.5, 226 )
+shape = SubResource( 6 )

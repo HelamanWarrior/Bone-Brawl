@@ -15,11 +15,22 @@ const JUMP_SPEED := 1000
 const MAX_JUMPS := 1
 const RAYCAST_LENGTH := 35
 
+var player_number_textures := [
+	preload("res://ui/player_numbers/p1.png"),
+	preload("res://ui/player_numbers/p2.png"),
+	preload("res://ui/player_numbers/p3.png"),
+	preload("res://ui/player_numbers/p4.png")
+]
+
 onready var sprite := $Sprite
 onready var wall_check_raycast := $WallCheck
+onready var player_number := $PlayerNumber
 
 func _init() -> void:
 	InputManager.connect("updated_input", self, "_updated_input")
+
+func _ready() -> void:
+	player_number.texture = player_number_textures[controller_num]
 
 func _physics_process(_delta: float) -> void:
 	match current_state:

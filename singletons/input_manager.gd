@@ -14,8 +14,6 @@ func _ready() -> void:
 
 func _joy_connection_changed(_device: int, _connected: bool) -> void:
 	connected_gamepads = Input.get_connected_joypads()
-	print(connected_gamepads)
-	print("Gamepad changed")
 	update_keyboard_players()
 
 func update_keyboard_players() -> void:

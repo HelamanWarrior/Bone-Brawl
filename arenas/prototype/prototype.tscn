@@ -17,15 +17,27 @@ script = ExtResource( 3 )
 
 [node name="1" type="Position2D" parent="SpawnLocations"]
 position = Vector2( 1798, 809 )
+__meta__ = {
+"_gizmo_extents_": 50.0
+}
 
 [node name="2" type="Position2D" parent="SpawnLocations"]
 position = Vector2( 180, 809 )
+__meta__ = {
+"_gizmo_extents_": 50.0
+}
 
 [node name="3" type="Position2D" parent="SpawnLocations"]
 position = Vector2( 346, 107 )
+__meta__ = {
+"_gizmo_extents_": 50.0
+}
 
 [node name="4" type="Position2D" parent="SpawnLocations"]
 position = Vector2( 1481, 107 )
+__meta__ = {
+"_gizmo_extents_": 50.0
+}
 
 [node name="Ground" parent="." instance=ExtResource( 2 )]
 position = Vector2( 960, 934 )

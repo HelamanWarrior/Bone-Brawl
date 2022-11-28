@@ -20,6 +20,8 @@ onready var join_instructions := $JoinInstructions
 
 func _ready() -> void:
 	player_number.texture = player_number_textures[pane_number - 1]
+	
+	Global.chosen_connected_players = []
 
 func toggle(activate: bool) -> void:
 	character.visible = activate

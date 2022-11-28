@@ -1,6 +1,6 @@
 extends Camera2D
 
-const PADDING_PERCENT := 20
+const PADDING_PERCENT := 25
 const MIN_ZOOM := 0.6
 const MAX_ZOOM := 1.75
 
@@ -26,7 +26,7 @@ func calculate_box(size: Vector2) -> Rect2:
 		min_y = min(min_y, pos.y)
 		max_y = max(max_y, pos.y)
 	
-	var correct_pixel = -(size * 0.01) * -PADDING_PERCENT
+	var correct_pixel = -(size * 0.01) * (-PADDING_PERCENT * (1 / zoom.x))
 	
 	var four_point_list = [
 		min_x - correct_pixel.y,

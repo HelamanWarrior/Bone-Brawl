@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+var is_right_arm := false
+
 onready var sprite := $Sprite
 onready var hitbox_collision := $Hitbox/CollisionShape2D
 

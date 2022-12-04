@@ -88,7 +88,7 @@ func movement_raw_input() -> Vector2:
 	return axis
 
 func arm_throw_handling() -> void:
-	if !Input.is_joy_button_pressed(controller_num, JOY_XBOX_Y):
+	if !Input.is_joy_button_pressed(controller_num, JOY_L2) and !Input.is_joy_button_pressed(controller_num, JOY_R2):
 		just_pressed_throw = false
 		return
 	
@@ -97,17 +97,20 @@ func arm_throw_handling() -> void:
 	
 	just_pressed_throw = true
 	
-	if arm_sprites[0].visible:
-		arm_sprites[0].visible = false
-		instance_arm()
-		return
+	if Input.is_joy_button_pressed(controller_num, JOY_L2):
+		if arm_sprites[0].visible:
+			arm_sprites[0].visible = false
+			instance_arm()
+			return
 		
-	if arm_sprites[1].visible:
-		arm_sprites[1].visible = false
-		instance_arm()
-		return
+	if Input.is_joy_button_pressed(controller_num, JOY_R2):
+		if arm_sprites[1].visible:
+			arm_sprites[1].visible = false
+			var right_arm := instance_arm()
+			right_arm.is_right_arm = true
+			return
 
-func instance_arm() -> void:
+func instance_arm() -> Object:
 	var arm_instance := arm.instance()
 	arm_instance.global_position = global_position
 	arm_instance.get_node("Hitbox").add_to_group(arm_group_name)
@@ -121,6 +124,7 @@ func instance_arm() -> void:
 	arm_instance.sprite.flip_h = body_sprite.flip_h
 	
 	arm_instance.apply_central_impulse(Vector2(1250 * direction, -250))
+	return arm_instance
 
 func jump() -> void:
 	velocity.y = -JUMP_SPEED
@@ -186,13 +190,9 @@ func _updated_input() -> void:
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group(arm_group_name):
-		area.get_parent().queue_free()
-		
-		# maybe dangerous, if there's collision issues in the future remove return
-		if !arm_sprites[0].visible:
-			arm_sprites[0].visible = true
-			return
-		
-		if !arm_sprites[1].visible:
+		if area.get_parent().is_right_arm:
 			arm_sprites[1].visible = true
-			return
+		else:
+			arm_sprites[0].visible = true
+		
+		area.get_parent().queue_free()

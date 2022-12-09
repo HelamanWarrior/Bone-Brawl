@@ -1,40 +1,38 @@
 tool
-extends TextureRect
+extends ColorRect
 
 export(int) var pane_number = 1
 
-var player_number_textures := [
-	preload("res://ui/player_numbers/p1.png"),
-	preload("res://ui/player_numbers/p2.png"),
-	preload("res://ui/player_numbers/p3.png"),
-	preload("res://ui/player_numbers/p4.png")
+const CHARACTER_TEXTURES := [
+	preload("res://player/PlayerSelect/Bones.png"),
+	preload("res://player/PlayerSelect/Tall.png"),
+	preload("res://player/PlayerSelect/Berserk.png"),
+	preload("res://player/PlayerSelect/Fat.png")
 ]
 
-var activated_texture := preload("res://ui/player_select/player_select_pane/pane.png")
-onready var deactivated_texture := texture
+const PLAYER_COLORS := [Color("#552c72"), Color("#4e5945"), Color("#2a435e"), Color("#813a2e")]
 
-onready var player_number := $PlayerNumber
 onready var character := $Character
-onready var controller := $Controller
 onready var join_instructions := $JoinInstructions
 
 func _ready() -> void:
-	player_number.texture = player_number_textures[pane_number - 1]
+	var player_index_number: int = pane_number - 1
+	
+	color = PLAYER_COLORS[player_index_number]
+	character.texture = CHARACTER_TEXTURES[player_index_number]
 	
 	Global.chosen_connected_players = []
 
 func toggle(activate: bool) -> void:
 	character.visible = activate
-	controller.visible = activate
 	join_instructions.visible = !activate
-	player_number.visible = activate
 	
 	if activate:
-		texture = activated_texture
+		#texture = activated_texture
 		Global.chosen_connected_players.append(pane_number - 1)
 		return
 	
-	texture = deactivated_texture
+	#texture = deactivated_texture
 	Global.chosen_connected_players.erase(pane_number - 1)
 
 func _input(event: InputEvent) -> void:

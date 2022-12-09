@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ui/player_select/player_select_pane/player_select_pane.tscn" type="PackedScene" id=1]
+[ext_resource path="res://player/PlayerSelect/Highlights.png" type="Texture" id=2]
+[ext_resource path="res://player/PlayerSelect/Foreground.png" type="Texture" id=3]
 
 [node name="PlayerSelectScreen" type="Control"]
 anchor_right = 1.0
@@ -11,12 +13,14 @@ margin_left = -944.0
 margin_top = -408.0
 margin_right = -520.0
 margin_bottom = 403.0
+color = Color( 0.333333, 0.172549, 0.447059, 1 )
 
 [node name="PlayerSelectPane2" parent="." instance=ExtResource( 1 )]
 margin_left = -453.0
 margin_top = -408.0
 margin_right = -29.0
 margin_bottom = 403.0
+color = Color( 0.305882, 0.34902, 0.270588, 1 )
 pane_number = 2
 
 [node name="PlayerSelectPane3" parent="." instance=ExtResource( 1 )]
@@ -24,6 +28,7 @@ margin_left = 33.0
 margin_top = -408.0
 margin_right = 457.0
 margin_bottom = 403.0
+color = Color( 0.164706, 0.262745, 0.368627, 1 )
 pane_number = 3
 
 [node name="PlayerSelectPane4" parent="." instance=ExtResource( 1 )]
@@ -31,4 +36,17 @@ margin_left = 514.0
 margin_top = -408.0
 margin_right = 938.0
 margin_bottom = 403.0
+color = Color( 0.505882, 0.227451, 0.180392, 1 )
 pane_number = 4
+
+[node name="Highlights" type="TextureRect" parent="."]
+margin_right = 3840.0
+margin_bottom = 2160.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="Foreground" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )

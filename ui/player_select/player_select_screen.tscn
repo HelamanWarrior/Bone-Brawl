@@ -13,7 +13,6 @@ margin_left = -944.0
 margin_top = -408.0
 margin_right = -520.0
 margin_bottom = 403.0
-color = Color( 0.333333, 0.172549, 0.447059, 1 )
 
 [node name="PlayerSelectPane2" parent="." instance=ExtResource( 1 )]
 margin_left = -453.0

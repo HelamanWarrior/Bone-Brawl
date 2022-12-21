@@ -12,7 +12,7 @@ var current_jumps := 0
 var just_pressed_jump := false
 var just_pressed_throw := false
 
-const JUMP_SPEED := 1000
+const JUMP_SPEED := 1250
 const MAX_JUMPS := 1
 const RAYCAST_LENGTH := 35
 const SLIDE_ACCELERATION := 50
@@ -38,6 +38,7 @@ func _init() -> void:
 	InputManager.connect("updated_input", self, "_updated_input")
 
 func _ready() -> void:
+	GameEvent.emit_signal("add_action_object", self)
 	player_number.texture = player_number_textures[controller_num]
 
 func _physics_process(_delta: float) -> void:
@@ -196,3 +197,6 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 			arm_sprites[0].visible = true
 		
 		area.get_parent().queue_free()
+
+func _exit_tree() -> void:
+	GameEvent.emit_signal("remove_action_object", self)

@@ -5,7 +5,11 @@ const MIN_ZOOM := 0.6
 const MAX_ZOOM := 1.75
 
 onready var screen_size := Vector2(Global.GAME_WIDTH, Global.GAME_HEIGHT)
-onready var players := []
+onready var action_objects := []
+
+func _init() -> void:
+	GameEvent.connect("add_action_object", self, "_add_action_object")
+	GameEvent.connect("remove_action_object", self, "_remove_action_object")
 
 func _ready() -> void:
 	offset = screen_size * 0.5
@@ -17,8 +21,8 @@ func calculate_box(size: Vector2) -> Rect2:
 	var max_y := -INF
 	
 	# find lowest -x, -y and highest x, y
-	for player in players:
-		var pos: Vector2 = player.global_position
+	for object in action_objects:
+		var pos: Vector2 = object.global_position
 		
 		min_x = min(min_x, pos.x) # if pos.x is less than infinity keep it
 		max_x = max(max_x, pos.x) # if pos.x is more than negative infinity keep it
@@ -46,9 +50,17 @@ func _physics_process(_delta: float) -> void:
 	var zoom_ratio := max(custom_rect2.size.x / screen_size.x, custom_rect2.size.y / screen_size.y)
 	
 	var offset_target := custom_rect2.position
+	offset_target.x = clamp(offset_target.x, 0, Global.GAME_WIDTH)
+	print(offset_target)
 	offset_target.y = clamp(offset_target.y, 0, 500 / zoom.x)
 	
 	var zoom_target := Vector2(1, 1) * clamp(zoom_ratio, MIN_ZOOM, MAX_ZOOM)
 	
 	offset = lerp(offset, offset_target, 0.1)
 	zoom = lerp(zoom, zoom_target, 0.05)
+
+func _add_action_object(object: Object) -> void:
+	action_objects.append(object)
+
+func _remove_action_object(object: Object) -> void:
+	action_objects.erase(object)

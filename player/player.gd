@@ -125,6 +125,7 @@ func instance_arm() -> Object:
 	arm_instance.sprite.flip_h = body_sprite.flip_h
 	
 	arm_instance.apply_central_impulse(Vector2(1250 * direction, -250))
+	arm_instance.angular_velocity = 15 * direction
 	return arm_instance
 
 func jump() -> void:

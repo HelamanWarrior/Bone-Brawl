@@ -51,7 +51,6 @@ func _physics_process(_delta: float) -> void:
 	
 	var offset_target := custom_rect2.position
 	offset_target.x = clamp(offset_target.x, 0, Global.GAME_WIDTH)
-	print(offset_target)
 	offset_target.y = clamp(offset_target.y, 0, 500 / zoom.x)
 	
 	var zoom_target := Vector2(1, 1) * clamp(zoom_ratio, MIN_ZOOM, MAX_ZOOM)

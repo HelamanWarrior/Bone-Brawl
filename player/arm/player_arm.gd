@@ -24,6 +24,8 @@ func instance_fade() -> void:
 	var particle_instance := FADE_BLUR_PARTICLE.instance()
 	
 	particle_instance.texture = sprite.texture
+	particle_instance.hframes = sprite.hframes
+	particle_instance.frame = sprite.frame
 	particle_instance.flip_h = sprite.flip_h
 	particle_instance.scale = sprite.scale
 	particle_instance.rotation = sprite.rotation

@@ -4,10 +4,10 @@ extends ColorRect
 export(int) var pane_number = 1
 
 const CHARACTER_TEXTURES := [
-	preload("res://player/PlayerSelect/Bones.png"),
-	preload("res://player/PlayerSelect/Tall.png"),
-	preload("res://player/PlayerSelect/Berserk.png"),
-	preload("res://player/PlayerSelect/Fat.png")
+	preload("res://player/player_select/bones.png"),
+	preload("res://player/player_select/tall.png"),
+	preload("res://player/player_select/berserk.png"),
+	preload("res://player/player_select/fat.png")
 ]
 
 const PLAYER_COLORS := [Color("#552c72"), Color("#4e5945"), Color("#2a435e"), Color("#813a2e")]

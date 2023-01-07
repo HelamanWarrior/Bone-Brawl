@@ -17,6 +17,7 @@ const MAX_JUMPS := 1
 const RAYCAST_LENGTH := 35
 const SLIDE_ACCELERATION := 50
 const MAX_SLIDE_SPEED := 175
+const MIN_ARM_HURT_FORCE := 600
 
 var player_number_textures := [
 	preload("res://ui/player_numbers/p1.png"),
@@ -27,12 +28,11 @@ var player_number_textures := [
 
 var arm := preload("res://player/arm/player_arm.tscn")
 
-onready var arm_group_name := "player" + str(controller_num) + "arm"
-
 onready var body_sprite := $Body
 onready var arm_sprites := [$RightArm, $LeftArm]
 onready var wall_check_raycast := $WallCheck
 onready var player_number := $PlayerNumber
+onready var hit_flash_timer := $HitFlashTimer
 
 func _init() -> void:
 	InputManager.connect("updated_input", self, "_updated_input")
@@ -114,7 +114,8 @@ func arm_throw_handling() -> void:
 func instance_arm() -> Object:
 	var arm_instance := arm.instance()
 	arm_instance.global_position = global_position
-	arm_instance.get_node("Hitbox").add_to_group(arm_group_name)
+	arm_instance.get_node("Hitbox").add_to_group("player_arm")
+	arm_instance.get_node("Hitbox").add_to_group(str(controller_num))
 	get_tree().current_scene.add_child(arm_instance)
 	
 	var direction := 1
@@ -191,13 +192,27 @@ func _updated_input() -> void:
 	using_keyboard = true
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group(arm_group_name):
-		if area.get_parent().is_right_arm:
-			arm_sprites[1].visible = true
-		else:
-			arm_sprites[0].visible = true
+	if area.is_in_group("player_arm"):
+		var arm_belongs_to_player := area.is_in_group(str(controller_num))
+		var arm := area.get_parent()
 		
-		area.get_parent().queue_free()
+		if arm_belongs_to_player:
+			if arm.is_right_arm:
+				arm_sprites[1].visible = true
+			else:
+				arm_sprites[0].visible = true
+			
+			arm.queue_free()
+		else:
+			if arm.linear_velocity.length() > MIN_ARM_HURT_FORCE:
+				# replace with actual sprite later
+				modulate = Color(50, 50, 50)
+				hit_flash_timer.start()
+				arm.linear_velocity = -arm.linear_velocity * 0.4
+
+func _on_HitFlashTimer_timeout() -> void:
+	# reset to default sprite later
+	modulate = Color(1, 1, 1)
 
 func _exit_tree() -> void:
 	GameEvent.emit_signal("remove_action_object", self)

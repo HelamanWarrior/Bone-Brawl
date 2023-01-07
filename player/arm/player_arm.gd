@@ -4,7 +4,7 @@ var is_right_arm := false
 var fade_alpha := 1.0
 
 const FADE_BLUR_PARTICLE := preload("res://effects/fade_blur_particle/fade_blur_particle.tscn")
-const MINIMUM_SPIN_SPEED := 600
+const MIN_SPIN_SPEED := 600
 
 onready var sprite := $Sprite
 onready var hitbox_collision := $Hitbox/CollisionShape2D
@@ -21,7 +21,7 @@ func _process(_delta: float) -> void:
 	if sleeping:
 		return
 	
-	if get_linear_velocity().length() < MINIMUM_SPIN_SPEED:
+	if get_linear_velocity().length() < MIN_SPIN_SPEED:
 		throw_animation_player.playback_speed = lerp(throw_animation_player.playback_speed, 0, 0.1)
 		spin_complete_timer.wait_time = 0.8 * throw_animation_player.playback_speed
 	else:

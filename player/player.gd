@@ -40,6 +40,8 @@ func _init() -> void:
 func _ready() -> void:
 	GameEvent.emit_signal("add_action_object", self)
 	player_number.texture = player_number_textures[controller_num]
+	
+	_updated_input()
 
 func _physics_process(_delta: float) -> void:
 	match current_state:
@@ -82,29 +84,38 @@ func movement_input_handling() -> Vector2:
 	return input
 
 func movement_raw_input() -> Vector2:
+	if using_keyboard:
+		return Vector2(Input.get_axis("left", "right"), 0)
+	
 	var axis := Vector2(Input.get_joy_axis(controller_num, JOY_AXIS_0), Input.get_joy_axis(controller_num, JOY_AXIS_1))
+	
 	if axis.length() < Global.DEADZONE:
 		axis.x = int(Input.is_joy_button_pressed(controller_num, JOY_DPAD_RIGHT)) - int(Input.is_joy_button_pressed(controller_num, JOY_DPAD_LEFT))
 	
 	return axis
 
 func arm_throw_handling() -> void:
-	if !Input.is_joy_button_pressed(controller_num, JOY_L2) and !Input.is_joy_button_pressed(controller_num, JOY_R2):
-		just_pressed_throw = false
-		return
+	if using_keyboard:
+		if !Input.is_action_pressed("throw_left") and !Input.is_action_pressed("throw_right"):
+			just_pressed_throw = false
+			return
+	else:
+		if !Input.is_joy_button_pressed(controller_num, JOY_L2) and !Input.is_joy_button_pressed(controller_num, JOY_R2):
+			just_pressed_throw = false
+			return
 	
 	if just_pressed_throw:
 		return
 	
 	just_pressed_throw = true
 	
-	if Input.is_joy_button_pressed(controller_num, JOY_L2):
+	if Input.is_joy_button_pressed(controller_num, JOY_L2) or (using_keyboard and Input.is_action_pressed("throw_left")):
 		if arm_sprites[0].visible:
 			arm_sprites[0].visible = false
 			instance_arm()
 			return
 		
-	if Input.is_joy_button_pressed(controller_num, JOY_R2):
+	if Input.is_joy_button_pressed(controller_num, JOY_R2) or (using_keyboard and Input.is_action_pressed("throw_right")):
 		if arm_sprites[1].visible:
 			arm_sprites[1].visible = false
 			var right_arm := instance_arm()
@@ -140,6 +151,16 @@ func jump_handling() -> void:
 	check_for_jump_regen()
 
 func check_for_jump() -> void:
+	if using_keyboard:
+		if Input.is_action_pressed("jump"):
+			if !just_pressed_jump:
+				jump()
+				just_pressed_jump = true
+		else:
+			just_pressed_jump = false
+		
+		return
+	
 	if Input.is_joy_button_pressed(controller_num, JOY_BUTTON_0):
 		if !just_pressed_jump:
 			jump()
@@ -185,11 +206,15 @@ func change_sprite_direction(flip: bool) -> void:
 	arm_sprites[1].flip_h = flip
 
 func _updated_input() -> void:
-	if !InputManager.keyboard_players.has(controller_num):
+	if controller_num != 0:
 		using_keyboard = false
 		return
 	
-	using_keyboard = true
+	if InputManager.connected_gamepads.size() == 0:
+		using_keyboard = true
+		return
+	
+	using_keyboard = false
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_arm"):

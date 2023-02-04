@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://arenas/arena.gd" type="Script" id=1]
+[ext_resource path="res://items/weapons/pistol/pistol.tscn" type="PackedScene" id=2]
 [ext_resource path="res://camera/camera.gd" type="Script" id=3]
 [ext_resource path="res://camera/camera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://arenas/prototype/prototype_level.png" type="Texture" id=5]
@@ -88,3 +89,6 @@ shape = SubResource( 5 )
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="ArenaCollisions"]
 position = Vector2( 915.5, 226 )
 shape = SubResource( 6 )
+
+[node name="Pistol" parent="." instance=ExtResource( 2 )]
+position = Vector2( 836, 761 )

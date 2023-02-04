@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://items/weapons/weapon_data.gd" type="Script" id=1]
+[ext_resource path="res://items/weapons/pistol/bones_left_arm_pistol.png" type="Texture" id=2]
+[ext_resource path="res://items/weapons/pistol/pistol.png" type="Texture" id=3]
+[ext_resource path="res://items/weapons/pistol/bone_right_arm_pistol.png" type="Texture" id=4]
+[ext_resource path="res://items/weapons/pistol/pistol_arm_spin.png" type="Texture" id=5]
+
+[resource]
+script = ExtResource( 1 )
+weapon_texture = ExtResource( 3 )
+player_left_arm_texture = ExtResource( 2 )
+player_right_arm_texture = ExtResource( 4 )
+arm_spin_texture = ExtResource( 5 )

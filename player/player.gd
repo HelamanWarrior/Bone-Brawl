@@ -27,6 +27,7 @@ var player_number_textures := [
 ]
 
 var arm := preload("res://player/arm/player_arm.tscn")
+var arm_throw_textures := [preload("res://player/arm/arm_spin.png"), preload("res://player/arm/arm_spin.png")]
 
 onready var body_sprite := $Body
 onready var arm_sprites := [$RightArm, $LeftArm]
@@ -36,6 +37,7 @@ onready var hit_flash_timer := $HitFlashTimer
 
 func _init() -> void:
 	InputManager.connect("updated_input", self, "_updated_input")
+	GameEvent.connect("player_equip_item", self, "_player_equip_item")
 
 func _ready() -> void:
 	GameEvent.emit_signal("add_action_object", self)
@@ -112,13 +114,15 @@ func arm_throw_handling() -> void:
 	if Input.is_joy_button_pressed(controller_num, JOY_L2) or (using_keyboard and Input.is_action_pressed("throw_left")):
 		if arm_sprites[0].visible:
 			arm_sprites[0].visible = false
-			instance_arm()
+			var left_arm := instance_arm()
+			left_arm.sprite.texture = arm_throw_textures[0]
 			return
 		
 	if Input.is_joy_button_pressed(controller_num, JOY_R2) or (using_keyboard and Input.is_action_pressed("throw_right")):
 		if arm_sprites[1].visible:
 			arm_sprites[1].visible = false
 			var right_arm := instance_arm()
+			right_arm.sprite.texture = arm_throw_textures[1]
 			right_arm.is_right_arm = true
 			return
 
@@ -234,6 +238,13 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 				modulate = Color(50, 50, 50)
 				hit_flash_timer.start()
 				arm.linear_velocity = -arm.linear_velocity * 0.4
+
+func _player_equip_item(player: Object, item: WeaponData) -> void:
+	if player != self:
+		return
+	
+	arm_sprites[1].texture = item.player_left_arm_texture
+	arm_throw_textures[1] = item.arm_spin_texture
 
 func _on_HitFlashTimer_timeout() -> void:
 	# reset to default sprite later
